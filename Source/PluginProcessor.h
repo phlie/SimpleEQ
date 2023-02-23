@@ -24,6 +24,7 @@ public:
     ~SimpleEQAudioProcessor() override;
 
     //==============================================================================
+    // Called right before the plugin is put into use, used to setup variables and properties for processBlock
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
     void releaseResources() override;
 
@@ -31,6 +32,7 @@ public:
     bool isBusesLayoutSupported (const BusesLayout& layouts) const override;
    #endif
 
+    // You cannot interupt the processBlock and should make it as well optimized as possible.
     void processBlock (juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
 
     //==============================================================================
@@ -55,6 +57,9 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
+
+    static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
+    juce::AudioProcessorValueTreeState apvts;
 
 private:
     //==============================================================================
